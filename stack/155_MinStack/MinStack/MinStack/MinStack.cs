@@ -1,58 +1,42 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MinStack
 {
     internal class MinStack
     {
-        private class Node
-        {
-            public int Item { get; set; }
+        private readonly Stack<int> _stack;
 
-            public int Min { get; set; }
-        }
-
-        private readonly Stack<Node> _stack;
+        private int _min = Int32.MaxValue;
 
         public MinStack()
         {
-            _stack = new Stack<Node>();
+            _stack = new Stack<int>();
         }
 
         public void Push(int x)
         {
-            if (_stack.Count != 0)
+            if (x <= _min)
             {
-                var peek = _stack.Peek();
-
-                if (x >= peek.Min) return;
-
-                foreach (var node in _stack)
-                {
-                    node.Min = x;
-                }
+                _stack.Push(_min);
+                _min = x;
             }
-
-            var newNode = new Node
-            {
-                Item = x,
-                Min = x
-            };
-            _stack.Push(newNode);
+            _stack.Push(x);
         }
 
         public void Pop()
         {
-            _stack.Pop();
+            if (_min == _stack.Pop()) _min = _stack.Pop();
         }
 
         public int Top()
         {
-            return _stack.Count != 0 ? _stack.Peek().Item : 0;
+            return _stack.Count != 0 ? _stack.Peek() : 0;
         }
 
         public int GetMin()
         {
-            return _stack.Count != 0 ? _stack.Peek().Min : 0;
+            return _stack.Count != 0 ? _min : 0;
         }
     }
 }
