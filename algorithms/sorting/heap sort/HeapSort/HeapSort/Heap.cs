@@ -6,15 +6,15 @@
         {
             var length = array.Length;
 
-            for (int k = (length / 2) - 1; k >= 0; k--)
+            for (int k = (length / 2) - 1; k >= 0; k--) // we don't need to ho through the whole array to build a binary heap
             {
                 Sink(array, k, length);
             }
 
             while (length >= 1)
             {
-                Exchange(array, 0, length - 1);
-                Sink(array, 0, --length);
+                Exchange(array, 0, length - 1); // move the biggest element to the end
+                Sink(array, 0, --length); // now we consider that the last element is sorted so exclude it from sink routine
             }
         }
 
