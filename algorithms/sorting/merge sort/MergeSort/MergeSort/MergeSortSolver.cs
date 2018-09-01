@@ -7,17 +7,22 @@ namespace MergeSort
     {
         public static List<int> Sort(List<int> array)
         {
+            return Sort(array, 0, array.Count - 1);
+        }
+
+        private static List<int> Sort(List<int> array, int begin, int end)
+        {
             if (!array.Any()) return new List<int>();
 
             var count = array.Count;
 
             if (count == 1) return array;
 
-            var left = array.Take(count / 2).ToList();
-            var right = array.Skip(count / 2).ToList();
+            var medium = begin + (begin + end) / 2;
 
-            left = Sort(left);
-            right = Sort(right);
+            var left = Sort(array.Take(medium).ToList(), begin, medium);
+
+            var right = Sort(array.Skip(medium).ToList(), medium + 1, end);
 
             var merged = Merge(left, right);
 
